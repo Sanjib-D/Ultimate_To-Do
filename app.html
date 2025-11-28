@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultimate To-Do</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/auth.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  </head>
+
+  <body>
+    <section id="login-screen" class="screen active">
+      <div class="login-card">
+        <h1 id="auth-title">Welcome Back</h1>
+        <p>Organize your life, day by day.</p>
+
+        <form id="auth-form">
+          <div class="input-group">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email Address"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <button type="submit" id="auth-btn" class="btn-primary">
+            Log In
+          </button>
+        </form>
+
+        <p class="toggle-text">
+          <span id="toggle-msg">New here?</span>
+          <span id="toggle-auth-mode">Create an account</span>
+        </p>
+
+        <p class="guest-option" id="guest-login-btn">
+          Continue as Guest (Offline Mode)
+        </p>
+      </div>
+    </section>
+
+    <section id="app-dashboard" class="screen hidden">
+      <header>
+        <div class="header-left" style="display: flex; align-items: center; gap: 15px;">
+            <button id="mobile-menu-btn" class="btn-small show-mobile">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">Ultimate To-Do</div>
+        </div>
+        
+        <div class="user-profile">
+            <span id="user-name">User</span>
+            <button id="logout-btn" class="btn-small">Logout</button>
+        </div>
+    </header>
+
+    <main class="app-layout">
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <aside class="sidebar" id="app-sidebar">
+            <div class="progress-widget">
+                <div class="progress-ring" style="--percent: 0;">
+                    <svg><circle cx="30" cy="30" r="26"></circle><circle cx="30" cy="30" r="26" id="progress-circle"></circle></svg>
+                    <div class="percentage" id="progress-text">0%</div>
+                </div>
+                <div class="progress-label">Daily Goal</div>
+            </div>
+            
+            <div class="nav-item active" data-category="all"><i class="fas fa-inbox"></i> All Tasks</div>
+            <div class="nav-label">LISTS</div>
+            <div class="nav-item" data-category="work"><i class="fas fa-briefcase"></i> Work</div>
+            <div class="nav-item" data-category="personal"><i class="fas fa-user"></i> Personal</div>
+            <div class="nav-item" data-category="study"><i class="fas fa-book"></i> Study</div>
+
+            <div class="theme-toggle-wrapper">
+                <button id="theme-toggle" class="btn-small"><i class="fas fa-moon"></i> Dark Mode</button>
+            </div>
+        </aside>
+
+        <div class="content-area">
+
+        <div class="content-area">
+          <h2 id="page-title">All Tasks</h2>
+
+          <div class="container">
+            <div class="input-wrapper" id="task-input-wrapper">
+              <form id="task-form">
+                <div class="top-row">
+                  <div class="check-circle"></div>
+                  <input
+                    type="text"
+                    id="task-title"
+                    placeholder="Add a task..."
+                    autocomplete="off"
+                  />
+                </div>
+
+                <div class="bottom-controls" id="input-controls">
+                  <div class="options">
+                    <select id="task-category">
+                      <option value="work">Work</option>
+                      <option value="personal">Personal</option>
+                      <option value="study">Study</option>
+                    </select>
+                    <select id="task-priority">
+                      <option value="1">Low Priority</option>
+                      <option value="2" selected>Medium</option>
+                      <option value="3">High Priority</option>
+                    </select>
+                    <input type="date" id="task-date" />
+                  </div>
+                  <button type="submit" class="add-btn">Add Task</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="control-bar">
+              <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input
+                  type="text"
+                  id="search-input"
+                  placeholder="Search tasks..."
+                />
+              </div>
+
+              <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="pending">
+                  Pending
+                </button>
+                <button class="filter-btn" data-filter="completed">Done</button>
+              </div>
+
+              <div class="sort-wrapper">
+                <select id="sort-select">
+                  <option value="newest">Newest First</option>
+                  <option value="priority">Priority</option>
+                  <option value="date">Due Date</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="task-list" class="task-list"></div>
+          </div>
+        </div>
+      </main>
+    </section>
+    <div id="edit-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Edit Task</h3>
+        <form id="edit-form">
+          <input type="hidden" id="edit-task-id" />
+
+          <div class="input-group">
+            <label>Task Title</label>
+            <input type="text" id="edit-title" required />
+          </div>
+
+          <div class="row">
+            <div class="input-group">
+              <label>Category</label>
+              <select id="edit-category">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="study">Study</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>Priority</label>
+              <select id="edit-priority">
+                <option value="1">Low</option>
+                <option value="2">Medium</option>
+                <option value="3">High</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Due Date</label>
+            <input type="date" id="edit-date" />
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" id="cancel-edit-btn" class="btn-secondary">
+              Cancel
+            </button>
+            <button type="submit" class="btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3"></audio>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

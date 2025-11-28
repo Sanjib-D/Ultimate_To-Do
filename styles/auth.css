@@ -1,0 +1,63 @@
+/* Special centering for login screen */
+#login-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}   
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e4e8;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    width: 100%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.toggle-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+#toggle-auth-mode {
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.guest-option {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: #999;
+    cursor: pointer;
+    text-decoration: underline;
+}
