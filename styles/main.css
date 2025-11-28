@@ -886,111 +886,103 @@ body.dark-mode .bottom-controls {
     display: none;
 }
 
+/* =========================================
+   MOBILE RESPONSIVENESS FIXES
+   ========================================= */
+
 @media (max-width: 768px) {
 
-    /* 1. Header Changes */
+    /* 1. FIX: Header & Logo sizing */
     header {
         padding: 10px 15px;
+        position: sticky; /* Keep header visible */
+        top: 0;
+        z-index: 1100; /* Above sidebar overlay */
     }
 
     .show-mobile {
         display: block;
         font-size: 1.2rem;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
     }
 
-    .logo {
-        font-size: 1.2rem;
-    }
-
-    /* 2. Layout Changes */
-    .app-layout {
-        position: relative;
-    }
-
-    .content-area {
-        padding: 15px;
-        width: 100%;
-    }
-
-    .container {
-        margin: 10px auto;
-        padding: 0;
-    }
-
-    /* 3. Sidebar (Slide-out Drawer) */
+    /* 2. FIX: Sidebar (Mobile Menu) & Dark Mode Visibility */
     .sidebar {
         position: fixed;
         top: 0;
         left: 0;
-        height: 100vh;
-        width: 260px;
-        z-index: 1000;
+        height: 100vh; /* Full screen height */
+        width: 280px;  /* Slightly wider for touch targets */
+        z-index: 1200; /* Must be highest */
         transform: translateX(-100%);
-        /* Hidden by default */
-        transition: transform 0.3s ease;
-        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 5px 0 25px rgba(0, 0, 0, 0.2);
+        padding-top: 60px; /* Space for close button if needed */
     }
 
     .sidebar.open {
         transform: translateX(0);
     }
 
-    /* Slide in */
+    /* Ensure Dark Mode toggle is always visible at bottom of menu */
+    .theme-toggle-wrapper {
+        margin-top: auto;
+        padding-bottom: 80px; /* Extra padding for mobile browser bottom bars */
+    }
 
-    /* Overlay (Darken background when menu open) */
+    /* 3. FIX: Overlay z-index */
     .sidebar-overlay {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s;
-        backdrop-filter: blur(2px);
+        z-index: 1150; /* Between header and sidebar */
     }
 
-    .sidebar-overlay.active {
+    /* 4. CRITICAL FIX: "Add Task" Input Expansion */
+    /* The desktop height (100px) cut off the button when stacked. 
+       We increase it to 400px so everything fits. */
+    .input-wrapper.active .bottom-controls {
+        max-height: 500px; /* INCREASED from 100px */
         opacity: 1;
-        pointer-events: all;
+        margin-top: 15px;
+        padding-bottom: 5px;
     }
 
-    /* 4. Input Wrapper Mobile Adjustments */
+    /* Stack the input controls vertically */
     .bottom-controls {
         flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
+        gap: 12px;
     }
 
     .options {
-        justify-content: space-between;
+        display: flex;
+        flex-direction: column; /* Stack dropdowns */
+        width: 100%;
+        gap: 10px;
     }
 
+    /* Make dropdowns full width for easy tapping */
+    select, #task-date {
+        width: 100%;
+        padding: 12px; /* Larger touch target */
+        box-sizing: border-box;
+    }
+
+    /* Make Add Button big and easy to hit */
     .add-btn {
         width: 100%;
+        padding: 14px;
+        margin-top: 5px;
+        font-size: 1rem;
     }
 
-    /* 5. Control Bar (Search/Filter) */
-    .control-bar {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
+    /* 5. FIX: Layout Spacing */
+    .content-area {
+        padding: 15px; /* Reduce padding on mobile */
+        padding-bottom: 80px; /* Space for scrolling */
     }
-
-    .search-wrapper {
-        max-width: 100%;
-        margin-right: 0;
-    }
-
-    .filters {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .sort-wrapper select {
+    
+    .container {
+        margin: 0 auto;
         width: 100%;
     }
 }
@@ -1524,4 +1516,5 @@ body.landing-page {
     .features-grid, .connect-grid { grid-template-columns: 1fr; }
     .nav-links { display: none; } /* Hide links on small mobile */
     .hero-content h1 { font-size: 2.5rem; }
+
 }
