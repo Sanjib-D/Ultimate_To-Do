@@ -6,7 +6,7 @@ Ultimate To-Do is a modern, responsive, and intelligent task management applicat
 
 ## 🚀 Live Demo
 
-[**View Live Demo**](sanjib-d.github.io/QR_Code_Generator/).
+[**View Live Demo**](https://sanjib-d.github.io/Ultimate_To-Do/).
 
 ## ✨ Features
 
