@@ -432,4 +432,12 @@ document.querySelectorAll('.nav-item').forEach(item => {
             sidebarOverlay.classList.remove('active');
         }
     });
+
 });
+
+// Inside your Mobile Menu Logic section
+const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+
+if (closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', toggleMobileMenu);
+}
