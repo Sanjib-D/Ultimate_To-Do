@@ -402,11 +402,12 @@ function switchScreen(screenName) {
 }
 
 // ==============================================
-// 7. MOBILE MENU LOGIC (NEW)
+// 7. MOBILE MENU LOGIC (UPDATED)
 // ==============================================
 
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-const sidebar = document.getElementById('app-sidebar'); // Make sure to add id="app-sidebar" to HTML
+const closeSidebarBtn = document.getElementById('close-sidebar-btn'); // Make sure you added this ID in HTML
+const sidebar = document.getElementById('app-sidebar');
 const sidebarOverlay = document.getElementById('sidebar-overlay');
 
 function toggleMobileMenu() {
@@ -414,30 +415,30 @@ function toggleMobileMenu() {
     sidebarOverlay.classList.toggle('active');
 }
 
-// Open Menu
+// 1. Open Menu Button
 if(mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevents instant closing
+        toggleMobileMenu();
+    });
 }
 
-// Close Menu when clicking overlay
+// 2. Close "X" Button (If you added it)
+if(closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', toggleMobileMenu);
+}
+
+// 3. Overlay (Clicking the dark background)
 if(sidebarOverlay) {
     sidebarOverlay.addEventListener('click', toggleMobileMenu);
 }
 
-// Close Menu when clicking a nav item (UX improvement)
+// 4. Close when clicking any Nav Item (Best for UX)
 document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
-        if(window.innerWidth <= 768) {
-            sidebar.classList.remove('open');
-            sidebarOverlay.classList.remove('active');
+        // Only close if it's currently open
+        if(sidebar.classList.contains('open')) {
+            toggleMobileMenu();
         }
     });
-
 });
-
-// Inside your Mobile Menu Logic section
-const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-
-if (closeSidebarBtn) {
-    closeSidebarBtn.addEventListener('click', toggleMobileMenu);
-}
